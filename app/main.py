@@ -8,12 +8,27 @@ app = Flask(__name__)
 def hello_world():
     return "Hello, World!"
 
-# Simulação de processamento de IA
-def ia_processing(input_data):
-    # Aqui seria onde o processamento de IA ocorre
-    # Exemplo simples: transforma o texto recebido em maiúsculas
-    processed_data = input_data.upper()
-    return processed_data
+# Função para processar dados do paciente
+def ia_processing_patient(data):
+    nome = data.get('nome', '').upper()
+    data_nascimento = data.get('data_nascimento', '')
+    cor = data.get('cor', '').capitalize()
+    sexo = data.get('sexo', '').capitalize()
+    doencas = [doenca.upper() for doenca in data.get('doencas', [])]
+
+    # Calcula a idade
+    nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d')
+    idade = datetime.now().year - nascimento.year
+
+    # Retorna os dados processados
+    return {
+        'nome': nome,
+        'idade': idade,
+        'cor': cor,
+        'sexo': sexo,
+        'doencas': doencas,
+        'status': 'success'
+    }
 
 # Rota para o serviço de IA que recebe dados via POST
 @app.route('/api/ia_service', methods=['POST'])
@@ -26,14 +41,10 @@ def ia_service():
         input_text = data.get('input_text', '')
 
         # Processa os dados recebidos pela função de IA
-        result = ia_processing(input_text)
+        result = ia_processing_patient(data)
 
-        # Retorna a resposta no formato JSON
-        response = {
-            'processed_text': result,
-            'status': 'success'
-        }
-        return jsonify(response), 200
+       
+        return jsonify(result), 200
 
     except Exception as e:
         # Em caso de erro, retorna uma mensagem de erro
