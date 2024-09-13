@@ -16,14 +16,10 @@ def ia_processing_patient(data):
     sexo = data.get('sexo', '').capitalize()
     doencas = [doenca.upper() for doenca in data.get('doencas', [])]
 
-    # Calcula a idade
-    nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d')
-    idade = datetime.now().year - nascimento.year
 
     # Retorna os dados processados
     return {
         'nome': nome,
-        'idade': idade,
         'cor': cor,
         'sexo': sexo,
         'doencas': doencas,

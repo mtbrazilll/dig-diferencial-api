@@ -20,7 +20,6 @@ def test_patient_service(client):
     # Envia um JSON contendo informações do paciente para o endpoint
     patient_data = {
         "nome": "João Silva",
-        "data_nascimento": "1990-05-15",
         "cor": "Branca",
         "sexo": "Masculino",
         "doencas": ["Hipertensão", "Diabetes"]
@@ -33,6 +32,5 @@ def test_patient_service(client):
     # Verifica se o processamento está correto
     assert response.status_code == 200
     assert json_data['nome'] == "JOÃO SILVA"
-    assert json_data['idade'] == 34  # Exemplo para verificar idade (ajuste conforme o ano atual)
     assert json_data['doencas'] == ["HIPERTENSÃO", "DIABETES"]
     assert json_data['status'] == "success"
